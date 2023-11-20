@@ -3,11 +3,17 @@ package main
 import "fmt"
 
 func main() {
+	var a int
+	var b int
 	empty := ""
 	symbol := "#"
 	space := " "
-	a := 8
-	b := 8
+
+	fmt.Print("Укажите длинну поля:")
+	fmt.Scan(&b)
+	fmt.Print("Укажите высоту поля:")
+	fmt.Scan(&a)
+
 	for i := 0; i < a; i++ {
 		for n := 0; n < b; n++ {
 			if i%2 == 0 {
