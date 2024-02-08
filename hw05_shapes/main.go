@@ -8,9 +8,22 @@ import (
 type Shape interface {
 	area() float64
 }
-
 type Circle struct {
 	radius float64
+}
+
+func newCircle(radius float64) *Circle {
+	return &Circle{
+		radius: radius,
+	}
+}
+
+func (c *Circle) GetRadius() float64 {
+	return c.radius
+}
+
+func (c *Circle) SetRadius(radius float64) {
+	c.radius = radius
 }
 
 func (c Circle) area() float64 {
@@ -22,6 +35,29 @@ type Rectangle struct {
 	height float64
 }
 
+func NewRectangle(width, height float64) *Rectangle {
+	return &Rectangle{
+		width:  width,
+		height: height,
+	}
+}
+
+func (r *Rectangle) GetWidth() float64 {
+	return r.width
+}
+
+func (r *Rectangle) GetHeight() float64 {
+	return r.height
+}
+
+func (r *Rectangle) SetWidth(width float64) {
+	r.width = width
+}
+
+func (r *Rectangle) SetHeight(height float64) {
+	r.height = height
+}
+
 func (r Rectangle) area() float64 {
 	return r.width * r.height
 }
@@ -31,41 +67,47 @@ type Triangle struct {
 	height float64
 }
 
+func newTriangle(base float64, height float64) *Triangle {
+	return &Triangle{
+		base:   base,
+		height: height,
+	}
+}
+
+func (t Triangle) GetHeight() float64 {
+	return t.height
+}
+
+func (t Triangle) GetBase() float64 {
+	return t.base
+}
+
+func (t *Triangle) SetHeight(height float64) {
+	t.height = height
+}
+
+func (t *Triangle) SetBase(base float64) {
+	t.base = base
+}
+
 func (t Triangle) area() float64 {
 	return t.base * t.height / 2
 }
 
-func calculateArea(s Shape) (float64, error) {
-	area := s.area()
-	if area < 0 {
-		return 0, fmt.Errorf("обьект не реализует интерфейс Shape")
+func calculateArea(s any) (float64, error) {
+	area, ok := s.(Shape)
+	if !ok {
+		return 0, fmt.Errorf("не реализует интерфейс Shape")
 	}
-	return area, nil
+	return area.area(), nil
 }
 
 func main() {
-	circle := Circle{5}
-	rectangle := Rectangle{10, 5}
-	triangle := Triangle{8, 6}
+	circle := newCircle(5)
+	rectangle := NewRectangle(10, 5)
+	triangle := newTriangle(8, 6)
 
-	circleArea, err := calculateArea(circle)
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println("Площадь круга:", circleArea)
-	}
-
-	rectangleArea, err := calculateArea(rectangle)
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println("Площадь прямоугольника:", rectangleArea)
-	}
-
-	triangleArea, err := calculateArea(triangle)
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println("Площадь треугольника:", triangleArea)
-	}
+	fmt.Println(calculateArea(circle))
+	fmt.Println(calculateArea(rectangle))
+	fmt.Println(calculateArea(triangle))
 }
