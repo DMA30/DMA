@@ -6,13 +6,13 @@ import (
 )
 
 type Shape interface {
-	area() float64
+	Area() float64
 }
 type Circle struct {
 	radius float64
 }
 
-func newCircle(radius float64) *Circle {
+func NewCircle(radius float64) *Circle {
 	return &Circle{
 		radius: radius,
 	}
@@ -26,7 +26,7 @@ func (c *Circle) SetRadius(radius float64) {
 	c.radius = radius
 }
 
-func (c Circle) area() float64 {
+func (c Circle) Area() float64 {
 	return math.Pi * c.radius * c.radius
 }
 
@@ -58,7 +58,7 @@ func (r *Rectangle) SetHeight(height float64) {
 	r.height = height
 }
 
-func (r Rectangle) area() float64 {
+func (r Rectangle) Area() float64 {
 	return r.width * r.height
 }
 
@@ -67,7 +67,7 @@ type Triangle struct {
 	height float64
 }
 
-func newTriangle(base float64, height float64) *Triangle {
+func NewTriangle(base float64, height float64) *Triangle {
 	return &Triangle{
 		base:   base,
 		height: height,
@@ -90,7 +90,7 @@ func (t *Triangle) SetBase(base float64) {
 	t.base = base
 }
 
-func (t Triangle) area() float64 {
+func (t Triangle) Area() float64 {
 	return t.base * t.height / 2
 }
 
@@ -99,13 +99,13 @@ func calculateArea(s any) (float64, error) {
 	if !ok {
 		return 0, fmt.Errorf("не реализует интерфейс Shape")
 	}
-	return area.area(), nil
+	return area.Area(), nil
 }
 
 func main() {
-	circle := newCircle(5)
+	circle := NewCircle(5)
 	rectangle := NewRectangle(10, 5)
-	triangle := newTriangle(8, 6)
+	triangle := NewTriangle(8, 6)
 
 	fmt.Println(calculateArea(circle))
 	fmt.Println(calculateArea(rectangle))
